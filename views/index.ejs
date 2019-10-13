@@ -1,0 +1,80 @@
+<%- include('includes/header') %>
+
+<div class="container">
+	<div class="box">
+		<h2>Rent the Car....</h2>
+		<input type="button" onclick="openForm()" class="btn" value="Add New Car" />
+		<input type="button" onclick="openForm1()" class="btn" value="Book Car" />
+		<input type="button" class="btn" value="Show Available Cars" />
+	</div>
+	<div class="form-popup" id="myForm">
+        	<%	if(locals.error) { %>
+        		   <script> alert('Enter Valid Numbers...');</script>
+            <% } %>
+		  <form action="/add" method="post" class="form-container">
+		    <h1>Enter Car Details</h1>
+
+		    <label for="number"><b>Vehicle Number</b></label>
+		    <input type="text" placeholder="Enter Vehicle Number" name="number" value="<%= (!!locals.number)?number:'' %>" required>
+
+		    <label for="model"><b>Model</b></label>
+		    <input type="text" placeholder="Enter Model" name="model" value="<%= (!!locals.model)?model:'' %>" required>
+
+		    <label for="capacity"><b>Seating Capacity</b></label>
+		    <input type="text" placeholder="Enter Seating Capacity" name="capacity" value="<%= (!!locals.capacity)?capacity:'' %>" required>
+
+		    <label for="rent"><b>Rent/Day</b></label>
+		    <input type="text" placeholder="Enter Rent per Day" name="rent" value="<%= (!!locals.rent)?rent:'' %>" required>
+
+		    <button type="submit" class="btn">Submit</button>
+		    <button type="button" class="btn cancel" onclick="closeForm()">Close</button>
+		  </form>
+	</div>
+	<div class="form-popup" id="myForm1">
+		  <form action="/book" method="post" class="form-container">
+		    <h1>Book Car</h1>
+
+		    <label for="bookdate"><b>Booking Date</b></label>
+		    <input type="date" placeholder="Enter Booking Date" name="bookdate" class="bookdate" value="" required>
+		    <br>
+		    <label for="returndate"><b>Return Date</b></label>
+		    <input type="date" placeholder="Enter Return Date" name="returndate" class="returndate" value="" required>
+		    <table>
+		    	<thead>
+		    	<th>Model</th>
+		    	<th>Capacity</th>
+		    	<th>Rent</th>
+		    </thead>
+		    <tbody>
+		    <% if(locals.check) for (var i = 0; i < locals.data.length; i++) {%>
+                  <tr>
+                  	<td><label><input type="radio" id='regular' name="optradio">
+                    <%= data[i]["model"] %></label></td>
+                    <td><label><%= data[i]["capacity"] %></label></td>
+                    <td><label><%= data[i]["rent"] %></td></label></td>
+                  </tr><br>
+                  <%}%>
+             </tbody>
+             </table>     
+		    <button type="submit" class="btn">Book</button>
+		    <button type="button" class="btn cancel" onclick="closeForm1()">Close</button>
+		  </form>
+	</div>
+</div>
+<script>
+	function openForm() {
+	  document.getElementById("myForm").style.display = "block";
+	}
+
+	function closeForm() {
+	  document.getElementById("myForm").style.display = "none";
+	}
+	function openForm1() {
+	  document.getElementById("myForm1").style.display = "block";
+	}
+
+	function closeForm1() {
+	  document.getElementById("myForm1").style.display = "none";
+	}
+	</script>
+<%- include('includes/footer') %>
